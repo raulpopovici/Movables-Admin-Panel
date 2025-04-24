@@ -39,39 +39,39 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/",
       icon: LayoutDashboardIcon,
     },
     {
       title: "Users",
-      url: "#",
+      url: "/users",
       icon: ListIcon,
     },
     {
       title: "Products",
-      url: "#",
+      url: "/products",
       icon: BarChartIcon,
     },
     {
       title: "Orders",
-      url: "#",
+      url: "/orders",
       icon: FolderIcon,
     },
     {
       title: "Regions",
-      url: "#",
+      url: "/regions",
       icon: UsersIcon,
     },
   ],
   navSecondary: [
     {
       title: "Settings",
-      url: "#",
+      url: "/settings",
       icon: SettingsIcon,
     },
     {
       title: "Get Help",
-      url: "#",
+      url: "/get-help",
       icon: HelpCircleIcon,
     },
   ],
