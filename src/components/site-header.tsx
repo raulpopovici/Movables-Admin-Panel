@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { NavUser } from "./avatar-menu";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
 export function SiteHeader() {
   const pathname = usePathname();
 
@@ -17,6 +18,8 @@ export function SiteHeader() {
   };
 
   const currentTitle = routeTitleMap[pathname] ?? "Page";
+
+  const { user, isAuthenticated, logout } = useAuth();
 
   return (
     <header className="group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 flex h-12 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear bg-[#123524] text-white">
