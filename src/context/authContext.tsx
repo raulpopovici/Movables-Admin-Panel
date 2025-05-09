@@ -14,7 +14,11 @@ interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   loading: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (
+    email: string,
+    password: string,
+    region: "EU" | "US" | "ASIA"
+  ) => Promise<void>;
   logout: () => void;
 }
 
@@ -26,8 +30,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false); // initially false since no session
 
-  const login = async (email: string, password: string) => {
-    const res = await api<User>("/api/loginUser", {
+  const login = async (
+    email: string,
+    password: string,
+    region: "EU" | "US" | "ASIA"
+  ) => {
+    const res = await api<User>("/api/loginUser", region, {
       method: "POST",
       body: JSON.stringify({ email, password }),
     });

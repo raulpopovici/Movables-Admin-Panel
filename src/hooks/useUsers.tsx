@@ -1,3 +1,4 @@
+// src/hooks/useUsers.ts
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 
@@ -12,11 +13,9 @@ export type User = {
   cartId: string;
 };
 
-export const useUsers = () => {
+export const useUsers = (region: "EU" | "US" | "ASIA") => {
   return useQuery<User[]>({
-    queryKey: ["users"],
-    queryFn: async () => {
-      return await api<User[]>("/api/getAllUsers"); // adjust this path to match your backend route
-    },
+    queryKey: ["users", region],
+    queryFn: () => api<User[]>("/api/getAllUsers", region),
   });
 };

@@ -23,7 +23,7 @@ export function LoginForm({
     e.preventDefault();
     setError("");
     try {
-      await login(email, password);
+      await login(email, password, "EU");
       router.push("/"); // or /dashboard, depending on your app
     } catch (err: any) {
       setError(err.message || "Login failed");

@@ -1,3 +1,4 @@
+// src/hooks/useOrders.ts
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 
@@ -11,11 +12,9 @@ export type Order = {
   userId: string;
 };
 
-export const useOrders = () => {
+export const useOrders = (region: "EU" | "US" | "ASIA") => {
   return useQuery<Order[]>({
-    queryKey: ["orders"],
-    queryFn: async () => {
-      return await api<Order[]>("/api/getOrders");
-    },
+    queryKey: ["orders", region],
+    queryFn: () => api<Order[]>("/api/getOrders", region),
   });
 };

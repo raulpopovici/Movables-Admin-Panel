@@ -13,10 +13,10 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { TrendingUpIcon, TrendingDownIcon } from "lucide-react";
 
-export function SectionCards() {
-  const { data: orders, isLoading, isError } = useOrders();
-  const { data: users = [] } = useUsers();
-  const { data: reviews = [] } = useReviews();
+export function SectionCards({ region }: { region: "EU" | "US" | "ASIA" }) {
+  const { data: orders, isLoading, isError } = useOrders(region);
+  const { data: users = [] } = useUsers(region);
+  const { data: reviews = [] } = useReviews(region);
 
   if (isLoading) return <div>Loading...</div>;
   if (isError || !orders) return <div>Error loading orders.</div>;

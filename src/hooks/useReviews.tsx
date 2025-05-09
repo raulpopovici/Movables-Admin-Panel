@@ -20,9 +20,9 @@ export interface Review {
   };
 }
 
-export function useReviews() {
+export function useReviews(region: "EU" | "US" | "ASIA") {
   return useQuery<Review[]>({
-    queryKey: ["reviews"],
-    queryFn: () => api("/api/getAllReviews"),
+    queryKey: ["reviews", region],
+    queryFn: () => api("/api/getAllReviews", region),
   });
 }
