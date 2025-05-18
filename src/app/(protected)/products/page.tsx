@@ -1,14 +1,48 @@
 "use client";
 
-import { RegionSelector } from "@/components/region-selector";
 import { useState } from "react";
+import { useProducts } from "@/hooks/useProducts";
+import { DataTable } from "@/components/ui/data-table";
+import { RegionSelector } from "@/components/region-selector";
+import { columns } from "./columns";
 
-export default function Products() {
+export default function ProductsPage() {
   const [region, setRegion] = useState<"EU" | "US">("EU");
+  const [page, setPage] = useState(1);
+  const pageSize = 10;
+
+  const { data: products = [], isLoading } = useProducts({
+    region,
+    pageNumber: page,
+    pageSize,
+  });
+
+  const isNextDisabled = products.length < pageSize;
 
   return (
-    <div className="w-full max-w-8xl mx-auto h-full gap-4 flex flex-col p-4">
-      <RegionSelector value={region} onChange={setRegion} />
+    <div className="w-full max-w-8xl mx-auto p-4 flex flex-col gap-4">
+      <RegionSelector
+        value={region}
+        onChange={(r) => {
+          setRegion(r);
+          setPage(1); // reset page when region changes
+        }}
+      />
+
+      {isLoading ? (
+        <div className="text-center">Loading products...</div>
+      ) : (
+        <DataTable
+          columns={columns}
+          data={products}
+          filterColumn="productName"
+          filterPlaceholder="Search products..."
+          page={page}
+          pageSize={pageSize}
+          onPageChange={setPage}
+          isNextDisabled={isNextDisabled}
+        />
+      )}
     </div>
   );
 }
