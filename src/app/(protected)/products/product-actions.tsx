@@ -28,6 +28,8 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { useQueryClient } from "@tanstack/react-query";
+import { api } from "@/lib/api";
 
 const colors = [
   "black",
@@ -40,7 +42,14 @@ const colors = [
 ] as const;
 const materials = ["metal", "wood", "plywood", "plastic"] as const;
 
-export function ProductActions({ product }: { product: Product }) {
+export function ProductActions({
+  product,
+  region,
+}: {
+  product: Product;
+  region: "EU" | "US";
+}) {
+  const queryClient = useQueryClient();
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
@@ -55,16 +64,39 @@ export function ProductActions({ product }: { product: Product }) {
     image: product.image ?? "",
   });
 
-  const handleEditSubmit = () => {
-    // TODO: replace with actual API call (PUT /api/products/:id)
-    console.log("Edited product", { id: product.id, ...formState });
-    setOpenEdit(false);
+  const handleEditSubmit = async () => {
+    try {
+      await api(`/api/updateProduct/${product.id}`, region, {
+        method: "PUT",
+        body: JSON.stringify(formState),
+      });
+
+      setOpenEdit(false);
+
+      // Refetch products
+      await queryClient.invalidateQueries({ queryKey: ["products", region] });
+
+      console.log("Product updated successfully");
+    } catch (error) {
+      console.error("Failed to update product:", error);
+    }
   };
 
-  const handleDelete = () => {
-    // TODO: replace with actual API call (DELETE /api/products/:id)
-    console.log("Deleted product", product.id);
-    setOpenDelete(false);
+  const handleDelete = async () => {
+    try {
+      await api(`/api/deleteProduct/${product.id}`, region, {
+        method: "DELETE",
+      });
+
+      setOpenDelete(false);
+
+      // Refetch products
+      await queryClient.invalidateQueries({ queryKey: ["products", region] });
+
+      console.log("Product deleted successfully");
+    } catch (error) {
+      console.error("Failed to delete product:", error);
+    }
   };
 
   return (

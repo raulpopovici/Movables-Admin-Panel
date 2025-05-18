@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useProducts } from "@/hooks/useProducts";
 import { DataTable } from "@/components/ui/data-table";
 import { RegionSelector } from "@/components/region-selector";
-import { columns } from "./columns";
+import { getProductColumns } from "./columns";
 
 export default function ProductsPage() {
   const [region, setRegion] = useState<"EU" | "US">("EU");
@@ -18,7 +18,7 @@ export default function ProductsPage() {
   });
 
   const isNextDisabled = products.length < pageSize;
-
+  const columns = useMemo(() => getProductColumns(region), [region]);
   return (
     <div className="w-full max-w-8xl mx-auto p-4 flex flex-col gap-4">
       <RegionSelector
