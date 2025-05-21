@@ -5,6 +5,7 @@ import { useProducts } from "@/hooks/useProducts";
 import { DataTable } from "@/components/ui/data-table";
 import { RegionSelector } from "@/components/region-selector";
 import { getProductColumns } from "./columns";
+import { AddProductButton } from "@/components/add-product";
 
 export default function ProductsPage() {
   const [region, setRegion] = useState<"EU" | "US">("EU");
@@ -43,6 +44,7 @@ export default function ProductsPage() {
           isNextDisabled={isNextDisabled}
         />
       )}
+      <AddProductButton region={region} />
     </div>
   );
 }
